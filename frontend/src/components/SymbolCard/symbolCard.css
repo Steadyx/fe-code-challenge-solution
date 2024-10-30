@@ -1,7 +1,7 @@
 .symbolCard {
   background-color: white;
   border-radius: 8px;
-  padding: 0px;
+  padding: 0;
   position: relative;
   cursor: pointer;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);

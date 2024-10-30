@@ -1,0 +1,38 @@
+.symbolsView {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.symbolsView__content {
+  display: flex;
+  gap: 20px;
+}
+
+.symbolsView__cards {
+  flex: 2;
+}
+
+.symbolsView__chart-container {
+  flex: 1;
+  background: #f8f8f8;
+  padding: 10px;
+  border-radius: 8px;
+  flex: 0 0 400px;
+  height: 100vh;
+}
+
+@media (max-width: 1024px) {
+  .symbolsView__content {
+    flex-direction: column;
+  }
+
+  .symbolsView__chart-container {
+    order: -1; 
+    margin-bottom: 20px;
+  }
+
+  .desktopInfo {
+    display: none;
+  }
+}
