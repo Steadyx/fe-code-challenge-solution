@@ -21,6 +21,32 @@
   font-weight: bold;
 }
 
+.symbolCard__info {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.symbolCard__content {
+  padding: 16px;
+}
+
+.sybolCard__price-container {
+  margin-bottom: 16px;
+}
+
+.symbolCard__price-label {
+  color: rgb(156, 163, 175);
+  font-size: 0.875rem;
+  margin-bottom: 4px;
+}
+
+.symbolCard__price {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: right;
+}
+
 .symbolCard__shake {
   animation: shake 0.62s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
 }
