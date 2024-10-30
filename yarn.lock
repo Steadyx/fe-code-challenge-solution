@@ -3243,6 +3243,7 @@ __metadata:
   resolution: "monorepo@workspace:."
   dependencies:
     concurrently: ^8.0.1
+    lodash: ^4.17.21
   languageName: unknown
   linkType: soft
 
