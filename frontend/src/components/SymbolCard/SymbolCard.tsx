@@ -22,8 +22,6 @@ const SymbolCard: React.FC<SymbolCardProps> =
     const { companyName, industry, marketCap, trend } = useAppSelector((state) => state.stocks.entities[id]);
     const price = useAppSelector((state) => state.prices[id]);
 
-
-
     const normalizedTrend: TrendType = useMemo(() => {
       if (trend) {
         const lowerTrend = trend.toLowerCase();

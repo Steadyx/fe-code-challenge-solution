@@ -1,4 +1,4 @@
-import React from 'react';
+import { memo } from 'react';
 import upTrendImage from '@/assets/up.png';
 import downTrendImage from '@/assets/down.png';
 
@@ -20,4 +20,4 @@ const TrendImage: React.FC<TrendImageProps> = ({ trend }) => {
   );
 };
 
-export default React.memo(TrendImage);
+export default memo(TrendImage);

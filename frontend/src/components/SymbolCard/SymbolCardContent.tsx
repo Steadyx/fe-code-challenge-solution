@@ -12,7 +12,7 @@ type SymbolCardContentProps = {
   marketCap: number;
 };
 
-const SymbolCardContent: React.FC<SymbolCardContentProps> = React.memo(({ price, companyName, industry, marketCap }) => {
+const SymbolCardContent: React.FC<SymbolCardContentProps> = ({ price, companyName, industry, marketCap }) => {
   const showCardInfo = useAppSelector(selectShowCardInfo);
 
   return (
@@ -27,6 +27,6 @@ const SymbolCardContent: React.FC<SymbolCardContentProps> = React.memo(({ price,
       )}
     </div>
   );
-});
+};
 
 export default memo(SymbolCardContent);
