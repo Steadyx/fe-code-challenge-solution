@@ -29,7 +29,9 @@
 
   .symbolsView__chart-container {
     order: -1; 
+    flex: 1;
     margin-bottom: 20px;
+    height: auto;
   }
 
   .desktopInfo {
