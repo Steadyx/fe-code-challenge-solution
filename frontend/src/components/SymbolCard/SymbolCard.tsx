@@ -1,5 +1,5 @@
 import './symbolCard.css';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { useAppSelector } from '@/hooks/redux';
 import SymbolCardHeader from './SymbolCardHeader'
 import SymbolCardContent from './SymbolCardContent';
@@ -105,4 +105,4 @@ const SymbolCard: React.FC<SymbolCardProps> =
     );
   };
 
-export default SymbolCard;
+export default memo(SymbolCard);
