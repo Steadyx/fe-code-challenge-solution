@@ -1,6 +1,8 @@
 .symbols-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  justify-content: center;
+  align-items: center;
   gap: 16px;
   padding: 16px;
   max-height: 100vh;

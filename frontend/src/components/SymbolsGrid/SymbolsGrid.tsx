@@ -1,7 +1,8 @@
-import { useEffect, useCallback } from 'react';
+import { memo, useEffect, useCallback } from 'react';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import SymbolCard from '@/components/SymbolCard';
 import { fetchAllStocks, selectors, setActiveSymbol } from '@/store/stocksSlice';
+import { VirtuosoGrid } from 'react-virtuoso';
 import './symbolsGrid.css';
 
 type SymbolsGridProps = {
@@ -11,13 +12,11 @@ type SymbolsGridProps = {
 const SymbolsGrid = ({ onSymbolClick }: SymbolsGridProps) => {
   const stockSymbols = useAppSelector(selectors.selectStockIds);
   const activeSymbolId = useAppSelector(selectors.selectActiveSymbolId);
-
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(fetchAllStocks());
   }, [dispatch]);
-
 
   const handleSymbolClick = useCallback(
     (symbolId: string) => {
@@ -31,18 +30,21 @@ const SymbolsGrid = ({ onSymbolClick }: SymbolsGridProps) => {
   const hasActiveCard = Boolean(activeSymbolId);
 
   return (
-    <div className="symbols-grid">
-      {stockSymbols.map((id) => (
+    <VirtuosoGrid
+      data={stockSymbols}
+      itemContent={(_, id) => (
         <SymbolCard
           key={id}
           id={id}
-          onClick={handleSymbolClick}
+          onClick={() => handleSymbolClick(id)}
           isSelected={activeSymbolId === id}
           hasActiveCard={hasActiveCard}
         />
-      ))}
-    </div>
+      )}
+      listClassName="symbols-grid"
+      itemClassName="symbol-card"
+    />
   );
 };
 
-export default SymbolsGrid;
+export default memo(SymbolsGrid);
