@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { memo, useMemo } from 'react';
 import './symbolCard.css';
 
 type PriceContainerProps = {
@@ -16,4 +16,4 @@ const PriceContainer: React.FC<PriceContainerProps> = React.memo(({ price }) => 
   );
 });
 
-export default PriceContainer;
+export default memo(PriceContainer);

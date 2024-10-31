@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import './symbolCard.css';
 
 type SymbolCardProps = {
@@ -14,4 +14,4 @@ const SymbolCardHeader: React.FC<SymbolCardProps> = ({ id }) => {
   )
 }
 
-export default SymbolCardHeader;
+export default memo(SymbolCardHeader);

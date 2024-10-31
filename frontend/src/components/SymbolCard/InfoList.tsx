@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { memo, useMemo } from 'react';
 import { ReactComponent as CompanyIcon } from '@/assets/company.svg';
 import { ReactComponent as IndustryIcon } from '@/assets/market_cap.svg';
 import { ReactComponent as MarketCapIcon } from '@/assets/industry.svg';
@@ -37,4 +37,4 @@ const InfoList: React.FC<InfoListProps> = ({ companyName, industry, marketCap })
   );
 };
 
-export default InfoList;
+export default memo(InfoList);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PriceContainer from './PriceContainer';
 import InfoList from './InfoList';
 import { useAppSelector } from '@/hooks/redux';
@@ -29,4 +29,4 @@ const SymbolCardContent: React.FC<SymbolCardContentProps> = React.memo(({ price,
   );
 });
 
-export default SymbolCardContent;
+export default memo(SymbolCardContent);

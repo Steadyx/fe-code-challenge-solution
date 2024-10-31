@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { memo, useEffect } from 'react';
 import './priceChart.css';
 import { Line, LineChart, XAxis, YAxis, ResponsiveContainer } from 'recharts';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
@@ -52,4 +52,4 @@ const PriceChart = ({ symbolId }: PriceChartProps) => {
   );
 };
 
-export default PriceChart;
+export default memo(PriceChart);
