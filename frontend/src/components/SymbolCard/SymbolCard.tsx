@@ -13,14 +13,14 @@ type TrendType = 'increase' | 'decrease' | 'neutral';
 type SymbolCardProps = {
   id: string;
   onClick: (symbolId: string) => void;
-  price: number;
   isSelected: boolean;
   hasActiveCard: boolean;
 };
 
 const SymbolCard: React.FC<SymbolCardProps> =
-  ({ id, onClick, price, isSelected = false, hasActiveCard }) => {
+  ({ id, onClick, isSelected = false, hasActiveCard }) => {
     const { companyName, industry, marketCap, trend } = useAppSelector((state) => state.stocks.entities[id]);
+    const price = useAppSelector((state) => state.prices[id]);
 
     const normalizedTrend: TrendType = useMemo(() => {
       if (trend) {
