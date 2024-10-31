@@ -50,6 +50,7 @@ const SymbolCard: React.FC<SymbolCardProps> =
         priceChangeEffect === 'increase' && 'symbolCard--price-increase',
         priceChangeEffect === 'decrease' && 'symbolCard--price-decrease',
       ].filter(Boolean);
+
       if (hasActiveCard) {
         return isSelected
           ? `${baseClasses.join(' ')} symbolCard--active`
