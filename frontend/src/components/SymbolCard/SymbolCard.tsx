@@ -73,7 +73,6 @@ const SymbolCard: React.FC<SymbolCardProps> =
       return null;
     }, [currentTrendEffect]);
 
-
     return (
       <div
         className={cardClassName}

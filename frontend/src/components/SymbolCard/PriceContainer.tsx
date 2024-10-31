@@ -1,12 +1,12 @@
-import React, { memo, useMemo } from 'react';
+import React, { memo } from 'react';
 import './symbolCard.css';
 
 type PriceContainerProps = {
   price: number;
 };
 
-const PriceContainer: React.FC<PriceContainerProps> = React.memo(({ price }) => {
-  const roundedPrice = useMemo(() => (price ? price.toFixed(2) : '--'), [price]);
+const PriceContainer: React.FC<PriceContainerProps> = ({ price }) => {
+  const roundedPrice = price ? price.toFixed(2) : '--';
 
   return (
     <div className="symbolCard__price-container">
@@ -14,6 +14,6 @@ const PriceContainer: React.FC<PriceContainerProps> = React.memo(({ price }) => 
       <div className="symbolCard__price">${roundedPrice}</div>
     </div>
   );
-});
+};
 
 export default memo(PriceContainer);
