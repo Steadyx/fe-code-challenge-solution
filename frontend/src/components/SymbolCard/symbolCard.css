@@ -11,9 +11,19 @@
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+.symbolCard--active {
+  transform: scale(1.02);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.symbolCard--inactive {
+  transform: scale(0.98);
+  box-shadow: none;
+}
+
 .symbolCard__header {
   background-color: rgb(13, 17, 23);
-  padding: 8px 16px;
+  padding: 8px 12px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -21,17 +31,16 @@
   font-weight: bold;
 }
 
-.symbolCard__info {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+.symbolCard__symbol {
+  font-size: 1rem;
+  font-weight: bold;
 }
 
 .symbolCard__content {
   padding: 16px;
 }
 
-.sybolCard__price-container {
+.symbolCard__price-container {
   margin-bottom: 16px;
 }
 
@@ -47,35 +56,79 @@
   text-align: right;
 }
 
-.symbolCard__shake {
-  animation: shake 0.62s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+.symbolCard__info {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.symbolCard__info .listItem {
+  color: rgb(107, 114, 128);
+}
+
+.symbolCard__info .listItem svg {
+  width: 20px;
+  height: 20px;
+  color: rgb(156, 163, 175);
+}
+
+.symbolCard__trend-image {
+  position: absolute;
+  top: -8%;
+  right: -5%;
+  width: 50px;
+  height: 50px;
 }
 
 @keyframes shake {
-  10%,
-  90% {
-    transform: translateX(-2px);
+  0%,
+  100% {
+    transform: translateX(0);
   }
-
-  20%,
-  80% {
-    transform: translateX(4px);
+  15% {
+    transform: translateX(-15px);
   }
-
-  25%,
-  35%,
-  45%,
-  55%,
-  65%,
+  30% {
+    transform: translateX(15px);
+  }
+  45% {
+    transform: translateX(-10px);
+  }
+  60% {
+    transform: translateX(10px);
+  }
   75% {
-    transform: translateX(-6px);
+    transform: translateX(-5px);
   }
+  90% {
+    transform: translateX(5px);
+  }
+}
 
-  30%,
-  40%,
-  50%,
-  60%,
-  70% {
-    transform: translateX(6px);
-  }
+.symbolCard__shake-animation {
+  animation: shake 0.5s cubic-bezier(0.36, 0, 0.66, -0.56) !important;
+  transform: none;
+}
+
+.symbolCard--price-increase {
+  box-shadow: 0 0 40px rgba(34, 197, 94, 0.8);
+}
+
+.symbolCard--price-decrease {
+  box-shadow: 0 0 40px rgba(239, 68, 68, 0.8);
+}
+
+.symbolCard--selected {
+  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.8);
+}
+
+.symbolCard__trend--neutral {
+  background-color: rgb(107, 114, 128);
+  box-shadow: 0 0 10px rgba(107, 114, 128, 0.8);
+}
+
+.symbolCard__content .symbolCard__info.hidden {
+  opacity: 0;
+  height: 0;
+  overflow: hidden;
 }

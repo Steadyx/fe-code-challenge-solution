@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '@/store/index';
 
 type historyEntry = {
@@ -11,13 +11,15 @@ type PriceHistoryResponse = {
   history: historyEntry[];
 };
 
+type ApiState = {
+  loading: boolean | null;
+  error: boolean;
+};
+
 type PriceHistoryState = {
   symbol: string | null;
   history: historyEntry[];
-  apiState: {
-    loading: boolean | null;
-    error: boolean;
-  };
+  apiState: ApiState;
   currentRequestId: string | undefined;
 };
 
@@ -31,13 +33,19 @@ const initialState: PriceHistoryState = {
   currentRequestId: undefined
 };
 
-export const fetchPriceHistory = createAsyncThunk(
+export const fetchPriceHistory = createAsyncThunk<
+  PriceHistoryResponse,
+  string,
+  { state: RootState }
+>(
   'stocks/fetchPriceHistory',
-  // if you type your function argument here
   async (symbolId: string, thunkAPI) => {
     const response = await fetch(`http://localhost:3100/api/stock/history/${symbolId}`, {
       signal: thunkAPI.signal
     });
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
     return (await response.json()) as PriceHistoryResponse;
   }
 );
@@ -51,39 +59,33 @@ const priceHistorySlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    // Add reducers for additional action types here, and handle loading state as needed
+    builder.addCase(fetchPriceHistory.pending, (state, action) => {
+      state.apiState.error = false;
+      state.apiState.loading = true;
+      state.currentRequestId = action.meta.requestId;
+    });
+
     builder.addCase(fetchPriceHistory.fulfilled, (state, action) => {
-      const { symbol, history } = action.payload;
       const { requestId } = action.meta;
+      if (state.currentRequestId !== requestId) return; // Ignore if not the latest
 
-      if (state.currentRequestId !== requestId) return;
-
+      const { symbol, history } = action.payload;
       state.apiState.error = false;
       state.apiState.loading = false;
       state.history = history;
       state.symbol = symbol;
-
-
-      state.currentRequestId = undefined;
+      state.currentRequestId = undefined; // Reset after handling
     });
 
     builder.addCase(fetchPriceHistory.rejected, (state, action) => {
       const { requestId } = action.meta;
-
       if (state.currentRequestId !== requestId) return;
 
       if (!action.meta.aborted) {
         state.apiState.error = true;
         state.apiState.loading = false;
       }
-
-      state.currentRequestId = undefined;
-    });
-
-    builder.addCase(fetchPriceHistory.pending, (state, action) => {
-      state.apiState.error = false;
-      state.apiState.loading = true;
-      state.currentRequestId = action.meta.requestId;
+      state.currentRequestId = undefined; // Reset after handling
     });
   }
 });
