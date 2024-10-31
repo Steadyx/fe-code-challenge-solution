@@ -1,12 +1,10 @@
 import './symbolCard.css';
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { useAppSelector } from '@/hooks/redux';
+import TrendImage from '@/components/TrendImage/TrendImage';
 import SymbolCardHeader from './SymbolCardHeader'
 import SymbolCardContent from './SymbolCardContent';
-import upTrendImage from '@/assets/up.png';
-import downTrendImage from '@/assets/down.png';
 import useAnimationEffects from '@/hooks/useAnimationEffects';
-
 
 type TrendType = 'increase' | 'decrease' | 'neutral';
 
@@ -64,15 +62,6 @@ const SymbolCard: React.FC<SymbolCardProps> =
     }, [onClick, id]);
 
 
-    const trendImage = useMemo(() => {
-      if (currentTrendEffect === 'increase') {
-        return upTrendImage;
-      } else if (currentTrendEffect === 'decrease') {
-        return downTrendImage;
-      }
-      return null;
-    }, [currentTrendEffect]);
-
     return (
       <div
         className={cardClassName}
@@ -86,13 +75,7 @@ const SymbolCard: React.FC<SymbolCardProps> =
           }
         }}
       >
-        {trendImage && (
-          <img
-            className="symbolCard__trend-image"
-            src={trendImage}
-            alt={`${currentTrendEffect} trend`}
-          />
-        )}
+        <TrendImage trend={currentTrendEffect} />
         <SymbolCardHeader id={id} trend={normalizedTrend} />
         <SymbolCardContent
           price={price}
