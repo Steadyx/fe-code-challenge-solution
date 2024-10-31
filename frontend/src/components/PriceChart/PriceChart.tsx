@@ -1,4 +1,4 @@
-import { memo, useEffect } from 'react';
+import { memo, useEffect, useMemo } from 'react';
 import './priceChart.css';
 import { Line, LineChart, XAxis, YAxis, ResponsiveContainer } from 'recharts';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
@@ -11,7 +11,6 @@ type PriceChartProps = {
 
 const PriceChart = ({ symbolId }: PriceChartProps) => {
   const dispatch = useAppDispatch();
-
   const apiState = useAppSelector(selectors.apiState);
   const data = useAppSelector(selectors.selectPriceHistory);
   const symbolInfo = useAppSelector(selectors.selectSymbolInfo);
@@ -28,13 +27,23 @@ const PriceChart = ({ symbolId }: PriceChartProps) => {
     };
   }, [dispatch, symbolId]);
 
+  const chartData = useMemo(() => {
+    if (data && data.length > 0) {
+      return data.map((e) => ({
+        ...e,
+        time: new Date(e.time).toLocaleTimeString(),
+      }));
+    }
+    return [];
+  }, [data]);
 
-  if (apiState.loading && symbolId !== null)
+  if (apiState.loading && symbolId) {
     return (
       <div className="priceChart">
         <Loading />
       </div>
     );
+  }
   if (apiState.error) return <div className="priceChart">Failed to get price history!</div>;
   if (!symbolId) return <div className="priceChart">Select stock</div>;
 
@@ -42,7 +51,7 @@ const PriceChart = ({ symbolId }: PriceChartProps) => {
     <div className="priceChart">
       <div>{symbolInfo}</div>
       <ResponsiveContainer width="100%" height="100%">
-        <LineChart data={data.map((e) => ({ ...e, time: new Date(e.time).toLocaleTimeString() }))}>
+        <LineChart data={chartData}>
           <Line type="monotone" dataKey="price" stroke="#8884d8" dot={false} />
           <XAxis dataKey="time" />
           <YAxis />
