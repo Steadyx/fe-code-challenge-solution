@@ -5,6 +5,8 @@ import TrendImage from '@/components/TrendImage/TrendImage';
 import SymbolCardHeader from './SymbolCardHeader'
 import SymbolCardContent from './SymbolCardContent';
 import useAnimationEffects from '@/hooks/useAnimationEffects';
+import useSymbolCardClassName from '@/hooks/useSymbolCardClassName';
+import useKeyboardClick from '@/hooks/useKeyboardClick';
 
 type TrendType = 'increase' | 'decrease' | 'neutral';
 
@@ -20,6 +22,8 @@ const SymbolCard: React.FC<SymbolCardProps> =
     const { companyName, industry, marketCap, trend } = useAppSelector((state) => state.stocks.entities[id]);
     const price = useAppSelector((state) => state.prices[id]);
 
+
+
     const normalizedTrend: TrendType = useMemo(() => {
       if (trend) {
         const lowerTrend = trend.toLowerCase();
@@ -30,6 +34,12 @@ const SymbolCard: React.FC<SymbolCardProps> =
     }, [trend]);
 
     const { isShaking, priceChangeEffect } = useAnimationEffects(price, normalizedTrend);
+    const cardClassName = useSymbolCardClassName({
+      isShaking,
+      priceChangeEffect,
+      isSelected,
+      hasActiveCard,
+    });
 
     const [currentTrendEffect, setCurrentTrendEffect] = useState<'increase' | 'decrease' | null>(
       null
@@ -41,26 +51,11 @@ const SymbolCard: React.FC<SymbolCardProps> =
       }
     }, [priceChangeEffect]);
 
-    const cardClassName = useMemo(() => {
-      const baseClasses = [
-        'symbolCard',
-        isShaking && 'symbolCard__shake-animation',
-        priceChangeEffect === 'increase' && 'symbolCard--price-increase',
-        priceChangeEffect === 'decrease' && 'symbolCard--price-decrease',
-      ].filter(Boolean);
-
-      if (hasActiveCard) {
-        return isSelected
-          ? `${baseClasses.join(' ')} symbolCard--active`
-          : `${baseClasses.join(' ')} symbolCard--inactive`;
-      }
-      return baseClasses.join(' ');
-    }, [isShaking, priceChangeEffect, isSelected, hasActiveCard]);
-
     const handleOnClick = useCallback(() => {
       onClick(id);
     }, [onClick, id]);
 
+    const handleKeyDown = useKeyboardClick(handleOnClick);
 
     return (
       <div
@@ -69,11 +64,7 @@ const SymbolCard: React.FC<SymbolCardProps> =
         tabIndex={0}
         role="button"
         aria-selected={isSelected}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            handleOnClick();
-          }
-        }}
+        onKeyDown={(e) => handleKeyDown(e)}
       >
         <TrendImage trend={currentTrendEffect} />
         <SymbolCardHeader id={id} trend={normalizedTrend} />
