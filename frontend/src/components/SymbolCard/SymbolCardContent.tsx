@@ -6,18 +6,18 @@ import { selectShowCardInfo } from '@/store/dashboardOptionsSlice';
 import './symbolCard.css';
 
 type SymbolCardContentProps = {
-  id: string;
+  price: number;
   companyName: string;
   industry: string;
   marketCap: number;
 };
 
-const SymbolCardContent: React.FC<SymbolCardContentProps> = React.memo(({ id, companyName, industry, marketCap }) => {
+const SymbolCardContent: React.FC<SymbolCardContentProps> = React.memo(({ price, companyName, industry, marketCap }) => {
   const showCardInfo = useAppSelector(selectShowCardInfo);
 
   return (
     <div className="symbolCard__content">
-      <PriceContainer id={id} />
+      <PriceContainer price={price} />
       {showCardInfo && (
         <InfoList
           companyName={companyName}
