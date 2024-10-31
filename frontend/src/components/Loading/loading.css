@@ -4,6 +4,7 @@
   align-items: center;
   width: 100%;
   flex-grow: 1;
+  margin-top: 20px;
 }
 
 .loading__pulse {
