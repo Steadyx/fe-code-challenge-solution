@@ -16,13 +16,11 @@ const PriceChart = ({ symbolId }: PriceChartProps) => {
   const symbolInfo = useAppSelector(selectors.selectSymbolInfo);
 
   useEffect(() => {
-    if (symbolId) {
-      dispatch(fetchPriceHistory(symbolId));
-    }
+    const fetchThunk = symbolId ? dispatch(fetchPriceHistory(symbolId)) : null;
 
     return () => {
-      if (apiState.loading) {
-        dispatch({ type: 'priceHistory/abortFetch' });
+      if (fetchThunk && fetchThunk.abort) {
+        fetchThunk.abort();
       }
     };
   }, [dispatch, symbolId]);
