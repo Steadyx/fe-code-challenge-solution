@@ -1,7 +1,7 @@
 import React from 'react';
-import { toggleShowCardInfo, selectShowCardInfo } from '@/store/dashboardOptionsSlice'; // Adjust the import path
+import { toggleShowCardInfo, selectShowCardInfo } from '@/store/dashboardOptionsSlice';
 import './toggleCardInfo.css';
-import { useAppDispatch, useAppSelector } from '@/hooks/redux';
+import { useAppDispatch, useAppSelector } from '@/hooks';
 const ToggleCardInfo: React.FC = () => {
   const dispatch = useAppDispatch();
   const showCardInfo = useAppSelector(selectShowCardInfo);

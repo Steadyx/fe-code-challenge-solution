@@ -1,7 +1,7 @@
 import SymbolsGrid from '@/components/SymbolsGrid';
 import PriceChart from '@/components/PriceChart';
 import DesktopInfo from './src/DesktopInfo';
-import { useAppDispatch, useAppSelector } from '@/hooks/redux';
+import { useAppDispatch, useAppSelector } from '@/hooks';
 import { selectors, setActiveSymbol } from '@/store/stocksSlice';
 import './symbolsView.css';
 

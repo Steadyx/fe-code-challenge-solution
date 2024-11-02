@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import PriceContainer from './PriceContainer';
 import InfoList from './InfoList';
-import { useAppSelector } from '@/hooks/redux';
+import { useAppSelector } from '@/hooks';
 import { selectShowCardInfo } from '@/store/dashboardOptionsSlice';
 import './symbolCard.css';
 

@@ -1,7 +1,7 @@
 import { memo, useEffect, useMemo } from 'react';
 import './priceChart.css';
 import { Line, LineChart, XAxis, YAxis, ResponsiveContainer } from 'recharts';
-import { useAppDispatch, useAppSelector } from '@/hooks/redux';
+import { useAppDispatch, useAppSelector } from '@/hooks';
 import { fetchPriceHistory, selectors } from '@/store/priceHistorySlice';
 import Loading from '@/components/Loading';
 

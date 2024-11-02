@@ -1,12 +1,10 @@
 import './symbolCard.css';
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
-import { useAppSelector } from '@/hooks/redux';
+import { useAppSelector } from '@/hooks';
 import TrendImage from '@/components/TrendImage/TrendImage';
 import SymbolCardHeader from './SymbolCardHeader'
 import SymbolCardContent from './SymbolCardContent';
-import useAnimationEffects from '@/hooks/useAnimationEffects';
-import useSymbolCardClassName from '@/hooks/useSymbolCardClassName';
-import useKeyboardClick from '@/hooks/useKeyboardClick';
+import { useAnimationEffects, useSymbolCardClassName, useKeyboardClick } from '@/hooks'
 
 type TrendType = 'increase' | 'decrease' | 'neutral';
 

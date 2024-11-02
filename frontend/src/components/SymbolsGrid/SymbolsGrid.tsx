@@ -1,5 +1,5 @@
 import { memo, useEffect, useCallback } from 'react';
-import { useAppDispatch, useAppSelector } from '@/hooks/redux';
+import { useAppDispatch, useAppSelector } from '@/hooks';
 import SymbolCard from '@/components/SymbolCard';
 import { fetchAllStocks, selectors, setActiveSymbol } from '@/store/stocksSlice';
 import { VirtuosoGrid } from 'react-virtuoso';
