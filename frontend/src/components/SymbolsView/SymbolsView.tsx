@@ -20,10 +20,10 @@ const SymbolsView = () => {
       <DesktopInfo />
 
       <div className="symbolsView__content">
+
         <div className="symbolsView__cards">
           <SymbolsGrid onSymbolClick={handleSymbolClick} />
         </div>
-
         <div className="symbolsView__chart-container">
           <h3>PRICE HISTORY</h3>
           <PriceChart symbolId={activeSymbol} />

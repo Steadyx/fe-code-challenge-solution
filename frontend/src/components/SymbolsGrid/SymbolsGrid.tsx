@@ -31,6 +31,7 @@ const SymbolsGrid = ({ onSymbolClick }: SymbolsGridProps) => {
 
   return (
     <VirtuosoGrid
+      style={{ height: '100vh' }}
       data={stockSymbols}
       itemContent={(_, id) => (
         <SymbolCard
