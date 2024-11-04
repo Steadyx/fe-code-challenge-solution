@@ -1,28 +1,77 @@
 import './symbolCard.css';
-import { ReactComponent as CompanyIcon } from '@/assets/company.svg';
-import { useAppSelector } from '@/hooks/redux';
-import ListItem from '@/components/ListItem';
+import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { useAppSelector } from '@/hooks';
+import TrendImage from '@/components/TrendImage/TrendImage';
+import SymbolCardHeader from './SymbolCardHeader'
+import SymbolCardContent from './SymbolCardContent';
+import { useAnimationEffects, useSymbolCardClassName, useKeyboardClick } from '@/hooks'
+
+type TrendType = 'increase' | 'decrease' | 'neutral';
 
 type SymbolCardProps = {
   id: string;
   onClick: (symbolId: string) => void;
-  price: number;
+  isSelected: boolean;
+  hasActiveCard: boolean;
 };
 
-const SymbolCard = ({ id, onClick, price }: SymbolCardProps) => {
-  const { trend, companyName } = useAppSelector((state) => state.stocks.entities[id]);
-  const handleOnClick = () => {
-    onClick(id);
+const SymbolCard: React.FC<SymbolCardProps> =
+  ({ id, onClick, isSelected = false, hasActiveCard }) => {
+    const { companyName, industry, marketCap, trend } = useAppSelector((state) => state.stocks.entities[id]);
+    const price = useAppSelector((state) => state.prices[id]);
+
+    const normalizedTrend: TrendType = useMemo(() => {
+      if (trend) {
+        const lowerTrend = trend.toLowerCase();
+        if (lowerTrend === 'increase') return 'increase';
+        if (lowerTrend === 'decrease') return 'decrease';
+      }
+      return 'neutral';
+    }, [trend]);
+
+    const { isShaking, priceChangeEffect } = useAnimationEffects(price, normalizedTrend);
+    const cardClassName = useSymbolCardClassName({
+      isShaking,
+      priceChangeEffect,
+      isSelected,
+      hasActiveCard,
+    });
+
+    const [currentTrendEffect, setCurrentTrendEffect] = useState<'increase' | 'decrease' | null>(
+      null
+    );
+
+    useEffect(() => {
+      if (priceChangeEffect === 'increase' || priceChangeEffect === 'decrease') {
+        setCurrentTrendEffect(priceChangeEffect);
+      }
+    }, [priceChangeEffect]);
+
+    const handleOnClick = useCallback(() => {
+      onClick(id);
+    }, [onClick, id]);
+
+    const handleKeyDown = useKeyboardClick(handleOnClick);
+
+    return (
+      <div
+        className={cardClassName}
+        onClick={handleOnClick}
+        tabIndex={0}
+        role="button"
+        aria-selected={isSelected}
+        onKeyDown={(e) => handleKeyDown(e)}
+      >
+        <TrendImage trend={currentTrendEffect} />
+        <SymbolCardHeader id={id} trend={normalizedTrend} />
+        <SymbolCardContent
+          price={price}
+          companyName={companyName}
+          industry={industry}
+          marketCap={marketCap}
+        />
+      </div >
+    );
   };
-  return (
-    <div onClick={handleOnClick} className="symbolCard">
-      <div>
-        {id} - {trend}
-      </div>
-      <div>Price:</div>
-      <div>{price || '--'} </div>
-      <ListItem Icon={<CompanyIcon />} label={companyName} />
-    </div>
-  );
-};
-export default SymbolCard;
+
+export default memo(SymbolCard);

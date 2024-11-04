@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '@/store/index';
 
 type Stock = {
@@ -21,6 +21,7 @@ type StocksState = {
     loading: boolean | null;
     error: boolean;
   };
+  activeSymbolId: string | null;
 };
 
 const initialState: StocksState = {
@@ -29,12 +30,12 @@ const initialState: StocksState = {
   apiState: {
     loading: null,
     error: false
-  }
+  },
+  activeSymbolId: null
 };
 
 export const fetchAllStocks = createAsyncThunk(
   'stocks/fetchAllStocks',
-  // if you type your function argument here
   async () => {
     const response = await fetch(`http://localhost:3100/api/stocks`);
     return (await response.json()) as Stock[];
@@ -44,15 +45,19 @@ export const fetchAllStocks = createAsyncThunk(
 const selectStockIds = (state: RootState) => state.stocks.ids;
 const selectStocks = (state: RootState) => state.stocks.entities;
 const apiState = (state: RootState) => state.stocks.apiState;
+const selectActiveSymbolId = (state: RootState) => state.stocks.activeSymbolId
+
 
 const stocksSlice = createSlice({
   name: 'stocks',
   initialState,
-  reducers: {},
+  reducers: {
+    setActiveSymbol: (state, action: PayloadAction<string | null>) => {
+      state.activeSymbolId = action.payload;
+    }
+  },
   extraReducers: (builder) => {
-    // Add reducers for additional action types here, and handle loading state as needed
     builder.addCase(fetchAllStocks.fulfilled, (state, action) => {
-      // Add user to the state array
       const map: StockEntry = {};
       action.payload.forEach((e) => {
         map[e.symbol] = e;
@@ -62,19 +67,16 @@ const stocksSlice = createSlice({
       state.apiState.error = false;
       state.apiState.loading = false;
       Object.assign(state, newState);
-      // console.log('fulfilled', action);
     });
 
-    builder.addCase(fetchAllStocks.rejected, (state, action) => {
+    builder.addCase(fetchAllStocks.rejected, (state) => {
       state.apiState.error = true;
       state.apiState.loading = false;
-      // console.log('rejected', action);
     });
 
-    builder.addCase(fetchAllStocks.pending, (state, action) => {
+    builder.addCase(fetchAllStocks.pending, (state) => {
       state.apiState.error = false;
       state.apiState.loading = true;
-      // console.log('pending', action);
     });
   }
 });
@@ -82,8 +84,10 @@ const stocksSlice = createSlice({
 const selectors = {
   selectStockIds,
   selectStocks,
-  apiState
+  apiState,
+  selectActiveSymbolId,
 };
 
+export const { setActiveSymbol } = stocksSlice.actions;
 export default stocksSlice;
 export { selectors };

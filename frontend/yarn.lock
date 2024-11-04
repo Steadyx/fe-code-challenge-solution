@@ -1777,6 +1777,7 @@ __metadata:
     react-dom: ^18.2.0
     react-redux: ^8.0.5
     react-router-dom: ^6.10.0
+    react-virtuoso: ^4.12.0
     recharts: ^2.5.0
     remove: ^0.1.5
     typescript: ^4.9.3
@@ -2711,6 +2712,16 @@ __metadata:
     react: ">=15.0.0"
     react-dom: ">=15.0.0"
   checksum: d8c9e50aabdc2cfc324e5cdb0ad1c6eecb02e1c0cd007b26d5b30ccf49015e900683dd489348c71fba4055858308d9ba7019e0d37d0e8d37bd46ed098788f670
+  languageName: node
+  linkType: hard
+
+"react-virtuoso@npm:^4.12.0":
+  version: 4.12.0
+  resolution: "react-virtuoso@npm:4.12.0"
+  peerDependencies:
+    react: ">=16 || >=17 || >= 18"
+    react-dom: ">=16 || >=17 || >= 18"
+  checksum: 23e802f3e4c58b94f70179fd6f3768ebc2e28c46bbf27f8d48f94627f27ae84111e6291ac817bab91302cabc376db67b8aa99f9cd674941448cc7752d6c9ae76
   languageName: node
   linkType: hard
 

@@ -58,18 +58,17 @@ select {
 }
 
 /* Remove all animations, transitions and smooth scroll for people that prefer not to see them */
-@media (prefers-reduced-motion: reduce) {
-  html:focus-within {
-    scroll-behavior: auto;
+@media (prefers-reduced-motion: no-preference) {
+  .loading__pulse {
+    animation: dot-pulse 1.5s infinite ease-in-out;
   }
 
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
+  .loading__pulse::before {
+    animation: dot-pulse-before 1.5s infinite ease-in-out;
+  }
+
+  .loading__pulse::after {
+    animation: dot-pulse-after 1.5s infinite ease-in-out;
   }
 }
 
